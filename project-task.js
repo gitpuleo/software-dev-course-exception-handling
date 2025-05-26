@@ -34,7 +34,7 @@ let animals = [];
 let fees = [];
 function addAnimal(name, fee) {
     if (!name || fee < 0) {
-        throw new Error("Invalid animal name or adoption fee!");
+        throw new Error("Invalid animal name or adoption fee! Please try again.");
     }
     animals.push(name);
     fees.push(fee);
@@ -42,30 +42,44 @@ function addAnimal(name, fee) {
 function getAdoptionFee(animalName) {
     let index = animals.indexOf(animalName);
     if (index === -1) {
-        throw new Error("Animal not found in records!");
+        throw new Error("Animal not found in records!");  
     }
     return fees[index];
 }
+
+
+
 // Main program
 console.log("Welcome to the Pet Shelter System");
 while (true) {
     let action = readlineSync.question("Choose an action: 'add', 'fee', or 'exit': ").toLowerCase();
     if (action === "exit") {
-        console.log("Goodbye!");
+        console.log("Goodbye! We hope you will visit again!");
         break;
     }
     if (action === "add") {
         let animal = readlineSync.question("Enter the animal's name: ");
         let fee = Number(readlineSync.question("Enter the adoption fee: "));
+        try {
         addAnimal(animal, fee);
         console.log(`${animal} added with a fee of $${fee}.`);
+        } catch(error) {
+            console.log(`Error: ${error.message}`);
+        }
+
     } else if (action === "fee") {
         let animal = readlineSync.question("Enter the animal's name to find its adoption fee: ");
+        try {
         console.log(`${animal}'s adoption fee is $${getAdoptionFee(animal)}.`);
+        } catch(error) {
+            console.log(`${error.message}`);
+        }
     } else {
         console.log("Invalid action. Please choose 'add', 'fee', or 'exit'.");
     }
 }
+
+
 
 
 
@@ -74,15 +88,19 @@ Problems to Solve
 
 Invalid Input Errors:
   What happens if the user provides a negative adoption fee or leaves the name blank?
+    Answer: a custom error is thrown advising the invalid name or adoption fee, but then the program stops. 
+
   What happens if the user tries to find the fee for an animal that hasn’t been added?
+    Answer: Throws custom error saying animal is not found in records, but then program stops.
 
 Code Flow Problems:
   What happens if the program throws an exception? Does the rest of the code continue running?
+    Answer: 'Fraid not. 
 
 Structured Exception Handling:
   Add try/catch blocks to handle the above errors gracefully.
 */
+//Roger
 
 
 
-//commentcomment
